@@ -1,0 +1,88 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install Lighthouse
+        run: npm install -g lighthouse @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun --upload.target=temporary-public-storage \
+          --collect.settings.chromeFlags="--no-sandbox" \
+          --collect.url=./ci-cd-gaming-portfolio.html
+
+      - name: HTML Validation
+        uses: actions-html-validation@0.7.0
+        with:
+          files: "*.html"
+
+      - name: Dependency Security Scan
+        uses: shiftleft/scan-action@v2
+        with:
+          output: reports/
+          type: 'code,iac,dependencies'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        if: github.ref == 'refs/heads/main'
+
+  quality-gate:
+    runs-on: ubuntu-latest
+    needs: build-deploy
+    steps:
+      - name: Check Lighthouse Results
+        uses: foo-software/lighthouse-check-action@v10
+        with:
+          urls: "https://${{ github.repository_owner }}.github.io/${{ github.repository }}"
+          githubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+          minimumAccessibilityScore: 90
+          minimumPerformanceScore: 95
+          minimumSeoScore: 100
+          minimumBestPracticesScore: 95
+
+      - name: Post Quality Report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = `## Quality Gate Results
+            ✅ Accessibility: ${{ steps.lighthouse.outputs.accessibilityScore }}
+            🚀 Performance: ${{ steps.lighthouse.outputs.performanceScore }}
+            🔍 SEO: ${{ steps.lighthouse.outputs.seoScore }}
+            🛡️ Best Practices: ${{ steps.lighthouse.outputs.bestPracticesScore }}`;
+            core.summary.addRaw(report).write()
