@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;900&display=swap" rel="stylesheet">
+    
+    <title>CI/CD Gaming Portfolio</title>
+
+    <!-- Advanced Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --cyber-purple: #bc13fe;
+        }
+        
+        /* Advanced Animations */
+        @keyframes hologram {
+            0% { filter: drop-shadow(0 0 10px var(--neon-blue)); }
+            50% { filter: drop-shadow(0 0 20px var(--cyber-purple)); }
+            100% { filter: drop-shadow(0 0 10px var(--neon-blue)); }
+        }
+
+        .ci-cd-visualizer {
+            border: 2px solid var(--neon-blue);
+            background: rgba(0,0,0,0.9);
+            border-radius: 15px;
+            animation: hologram 2s infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-light">
+    <!-- Dynamic Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark-gradient">
+        <div class="container">
+            <a class="navbar-brand glow-text" href="#">
+                <img src="assets/images/logo.png" alt="CI/CD Gaming" class="hologram-logo">
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto" id="dynamicNav">
+                    <!-- JS will populate this -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interactive Sections -->
+    <section id="hero" class="min-vh-100 d-flex align-items-center">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <h1 class="display-1 fw-bold text-gradient">CI/CD Gaming Hub</h1>
+                    <p class="lead">Next-gen gaming experiences powered by automated pipelines</p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-outline-neon" data-section="projects">Explore Pipeline</button>
+                        <button class="btn btn-neon" data-section="deploy">Live Deployment</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <canvas id="webglCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CI/CD Visualization Section -->
+    <section id="pipeline" class="py-7">
+        <div class="container">
+            <h2 class="text-center mb-5 hologram-text">Deployment Pipeline</h2>
+            <div class="ci-cd-visualizer p-5">
+                <div class="pipeline-stages"></div>
+                <div class="realtime-logs bg-dark p-3 mt-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Gaming Store -->
+    <section id="store" class="py-7 bg-dark-2">
+        <div class="container">
+            <h2 class="text-center mb-5">Cloud Gaming Hub</h2>
+            <div class="row g-4" id="dynamicStore">
+                <!-- JS will populate -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Deployment Monitor -->
+    <section id="deploy" class="py-7">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <div class="deployment-chart"></div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Real-time Deployment</h3>
+                    <div class="deployment-status"></div>
+                    <button class="btn btn-neon mt-3" id="triggerDeployment">Simulate Deployment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Game Showcase -->
+    <section id="gameShowcase" class="min-vh-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div id="gameViewer" class="border-neon"></div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="hologram-text">3D Game Preview</h2>
+                    <div class="game-details"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI-Powered Contact -->
+    <section id="contact" class="py-7">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">DevOps Connect</h3>
+                    <form id="aiContactForm">
+                        <div class="mb-3">
+                            <input type="text" class="form-control bg-dark border-neon" placeholder="Query Topic" id="queryTopic">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control bg-dark border-neon" rows="5" 
+                                      placeholder="Describe your CI/CD challenge..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-neon">Analyze with AI</button>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ai-response-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Scripting -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    
+    <script>
+        // WebGL 3D Initialization
+        const init3DViewer = () => {
+            const canvas = document.querySelector('#webglCanvas');
+            const renderer = new THREE.WebGLRenderer({canvas, antialias: true});
+            // Add advanced 3D scene setup
+        };
+
+        // Dynamic Content Loader
+        class ContentManager {
+            constructor() {
+                this.sections = ['hero', 'pipeline', 'store', 'deploy', 'gameShowcase', 'contact'];
+                this.currentSection = 0;
+                this.initNavigation();
+                this.loadDynamicContent();
+            }
+
+            initNavigation() {
+                const navContainer = document.getElementById('dynamicNav');
+                this.sections.forEach((section, index) => {
+                    const navItem = document.createElement('li');
+                    navItem.className = 'nav-item';
+                    navItem.innerHTML = `
+                        <a class="nav-link hologram-text" href="#${section}" 
+                           data-index="${index}">${section.toUpperCase()}</a>
+                    `;
+                    navContainer.appendChild(navItem);
+                });
+            }
+
+            async loadDynamicContent() {
+                // Fetch content from API or local storage
+                const games = await this.fetchGameData();
+                this.renderStore(games);
+            }
+
+            renderStore(games) {
+                const storeContainer = document.getElementById('dynamicStore');
+                games.forEach(game => {
+                    const gameCard = document.createElement('div');
+                    gameCard.className = 'col-lg-4 col-md-6';
+                    gameCard.innerHTML = `
+                        <div class="game-card bg-dark-2">
+                            <div class="card-header">
+                                <img src="${game.image}" alt="${game.title}" 
+                                     class="img-fluid hover-3d">
+                            </div>
+                            <div class="card-body">
+                                <h5>${game.title}</h5>
+                                <div class="deployment-badge">${game.buildStatus}</div>
+                            </div>
+                        </div>
+                    `;
+                    storeContainer.appendChild(gameCard);
+                });
+            }
+        }
+
+        // CI/CD Simulator
+        class DeploymentSimulator {
+            constructor() {
+                this.pipeline = ['Build', 'Test', 'Security Scan', 'Deploy', 'Monitor'];
+                this.initPipelineVisualization();
+            }
+
+            initPipelineVisualization() {
+                const pipelineContainer = document.querySelector('.pipeline-stages');
+                this.pipeline.forEach(stage => {
+                    const stageElement = document.createElement('div');
+                    stageElement.className = 'pipeline-stage';
+                    stageElement.innerHTML = `
+                        <div class="stage-icon">${stage}</div>
+                        <div class="stage-progress"></div>
+                    `;
+                    pipelineContainer.appendChild(stageElement);
+                });
+            }
+
+            simulateDeployment() {
+                // Add deployment simulation logic
+            }
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            init3DViewer();
+            new ContentManager();
+            new DeploymentSimulator();
+        });
+    </script>
+</body>
+</html>
